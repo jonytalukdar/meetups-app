@@ -1,9 +1,10 @@
 import React from 'react';
+import MeetupForm from '../components/meetups/MeetupForm';
 
 const NewMeetup = () => {
   return (
     <div>
-      <h1>new meetups page</h1>
+      <MeetupForm />
     </div>
   );
 };
