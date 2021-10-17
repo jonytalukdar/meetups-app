@@ -9,6 +9,10 @@ const Todo = (props) => {
     setModalIsOpen(true);
   };
 
+  const closeModalHandler = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <>
       <div className="card">
@@ -19,8 +23,8 @@ const Todo = (props) => {
           </button>
         </div>
       </div>
-      {modalIsOpen && <Modal />}
-      {modalIsOpen && <Backdrop />}
+      {modalIsOpen && <Modal onClose={closeModalHandler} />}
+      {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
     </>
   );
 };
