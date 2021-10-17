@@ -1,7 +1,7 @@
-const Todo = () => {
+const Todo = (props) => {
   return (
     <div className="card">
-      <h3>Title</h3>
+      <h3>{props.title}</h3>
       <div className="actions">
         <button className="btn">Delete</button>
       </div>
