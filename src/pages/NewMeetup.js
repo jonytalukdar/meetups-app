@@ -3,9 +3,10 @@ import MeetupForm from '../components/meetups/MeetupForm';
 
 const NewMeetup = () => {
   return (
-    <div>
+    <section>
+      <h2>Add New Meetup</h2>
       <MeetupForm />
-    </div>
+    </section>
   );
 };
 
