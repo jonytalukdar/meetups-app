@@ -18,6 +18,7 @@ const AllMeetups = () => {
     // convert object to arry
     for (const key in data) {
       const meetup = {
+        id: key,
         ...data[key],
       };
 

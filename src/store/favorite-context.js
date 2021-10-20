@@ -14,12 +14,22 @@ const FavoritesContextProvider = (props) => {
   console.log(userFavorites);
 
   const addFavoriteHandler = (favoriteMeetup) => {
-    setUserFavorites((prevUserFavorites) => {
-      return [
-        ...prevUserFavorites,
-        { id: favoriteMeetup.name, ...favoriteMeetup },
-      ];
-    });
+    fetch(
+      'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(favoriteMeetup),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserFavorites((prevUserFavorites) => {
+          return [...prevUserFavorites, { id: data.name, ...favoriteMeetup }];
+        });
+      });
   };
 
   const removeFavoriteHandler = (id) => {
