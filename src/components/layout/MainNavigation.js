@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { FavoritesContext } from '../../store/favorite-context';
 import classes from './MainNavigation.module.css';
 
