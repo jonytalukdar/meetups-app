@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FavoritesContext } from '../../store/favorite-context';
+import FavoritesContext from '../../store/favorites-context';
+// import FavoritesContext from '../../store/favorite-context';
 import classes from './MainNavigation.module.css';
 
 const MainNavigation = () => {

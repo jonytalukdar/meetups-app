@@ -1,16 +1,16 @@
-import React from 'react';
-import { useHistory } from 'react-router';
-import MeetupForm from '../components/meetups/MeetupForm';
+import { useHistory } from 'react-router-dom';
 
-const NewMeetup = () => {
+import NewMeetupForm from '../components/meetups/NewMeetupForm';
+
+function NewMeetupPage() {
   const history = useHistory();
 
-  const addMeetupHandler = (data) => {
+  function addMeetupHandler(meetupData) {
     fetch(
       'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/meetups.json',
       {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(meetupData),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -18,14 +18,14 @@ const NewMeetup = () => {
     ).then(() => {
       history.replace('/');
     });
-  };
+  }
 
   return (
     <section>
-      <h2>Add New Meetup</h2>
-      <MeetupForm onAddMeetup={addMeetupHandler} />
+      <h1>Add New Meetup</h1>
+      <NewMeetupForm onAddMeetup={addMeetupHandler} />
     </section>
   );
-};
+}
 
-export default NewMeetup;
+export default NewMeetupPage;

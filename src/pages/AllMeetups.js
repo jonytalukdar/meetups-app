@@ -1,36 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import MeetupList from '../components/meetups/MeetupList';
 
-const AllMeetups = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [meetups, setMeetups] = useState([]);
-
-  const fetchMeetups = async () => {
-    setIsLoading(true);
-    const response = await fetch(
-      'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/meetups.json'
-    );
-
-    const data = await response.json();
-
-    const newData = [];
-    // convert object to arry
-    for (const key in data) {
-      const meetup = {
-        // id: key,
-        ...data[key],
-      };
-
-      newData.push(meetup);
-    }
-
-    setMeetups(newData);
-    setIsLoading(false);
-  };
+function AllMeetupsPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedMeetups, setLoadedMeetups] = useState([]);
 
   useEffect(() => {
-    fetchMeetups();
+    setIsLoading(true);
+    fetch(
+      'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/meetups.json'
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const meetups = [];
+
+        for (const key in data) {
+          const meetup = {
+            id: key,
+            ...data[key],
+          };
+
+          meetups.push(meetup);
+        }
+
+        setIsLoading(false);
+        setLoadedMeetups(meetups);
+      });
   }, []);
 
   if (isLoading) {
@@ -44,13 +42,9 @@ const AllMeetups = () => {
   return (
     <section>
       <h1>All Meetups</h1>
-      {meetups.length === 0 ? (
-        <h2>No Meetup Found</h2>
-      ) : (
-        <MeetupList meetups={meetups} />
-      )}
+      <MeetupList meetups={loadedMeetups} />
     </section>
   );
-};
+}
 
-export default AllMeetups;
+export default AllMeetupsPage;

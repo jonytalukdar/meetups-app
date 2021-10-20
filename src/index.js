@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import FavoritesContextProvider from './store/favorite-context';
+import { FavoritesContextProvider } from '../src/store/favorites-context';
 
 ReactDOM.render(
   <FavoritesContextProvider>
