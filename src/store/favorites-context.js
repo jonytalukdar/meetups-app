@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 const FavoritesContext = createContext({
   favorites: [],
@@ -14,21 +14,59 @@ export function FavoritesContextProvider(props) {
   console.log(userFavorites);
 
   function addFavoriteHandler(favoriteMeetup) {
-    setUserFavorites((prevUserFavorites) => {
-      return prevUserFavorites.concat(favoriteMeetup);
-    });
+    fetch(
+      'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(favoriteMeetup),
+        headers: {
+          'Conent-Type': 'application/json',
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserFavorites((prevUserFavorites) => {
+          return [...prevUserFavorites, { id: data.name, ...favoriteMeetup }];
+        });
+      });
   }
+
+  useEffect(() => {
+    fetch(
+      `https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites.json`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const newData = [];
+
+        for (const key in data) {
+          const newFavorites = {
+            id: key,
+            ...data[key],
+          };
+          newData.push(newFavorites);
+        }
+        setUserFavorites(newData);
+      });
+  }, []);
 
   function removeFavoriteHandler(meetupId) {
     console.log(meetupId);
 
-    setUserFavorites((prevUserFavorites) => {
-      return prevUserFavorites.filter((meetup) => meetup.id !== meetupId);
+    fetch(
+      `https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites/${meetupId}.json`,
+      {
+        method: 'DELETE',
+      }
+    ).then((response) => {
+      setUserFavorites((prevUserFavorites) => {
+        return prevUserFavorites.filter((meetup) => meetup.id !== meetupId);
+      });
     });
   }
 
   function itemIsFavoriteHandler(meetupId) {
-    console.log(meetupId);
     return userFavorites.some((meetup) => meetup.id === meetupId);
   }
 
