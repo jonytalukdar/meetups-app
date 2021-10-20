@@ -15,7 +15,10 @@ const FavoritesContextProvider = (props) => {
 
   const addFavoriteHandler = (favoriteMeetup) => {
     setUserFavorites((prevUserFavorites) => {
-      return [...prevUserFavorites, { ...favoriteMeetup }];
+      return [
+        ...prevUserFavorites,
+        { id: favoriteMeetup.name, ...favoriteMeetup },
+      ];
     });
   };
 
