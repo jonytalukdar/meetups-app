@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useCallback, useState } from 'react';
+import { useEffect } from 'react/cjs/react.development';
 
 export const FavoritesContext = createContext({
   favorites: [],
@@ -13,7 +14,7 @@ const FavoritesContextProvider = (props) => {
 
   console.log(userFavorites);
 
-  const addFavoriteHandler = (favoriteMeetup) => {
+  const addFavoriteHandler = useCallback((favoriteMeetup) => {
     fetch(
       'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites.json',
       {
@@ -30,11 +31,41 @@ const FavoritesContextProvider = (props) => {
           return [...prevUserFavorites, { id: data.name, ...favoriteMeetup }];
         });
       });
-  };
+  }, []);
+
+  // const fetchFavorites = () => {};
+
+  useEffect(() => {
+    fetch(
+      'https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites.json'
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const newData = [];
+
+        for (const key in data) {
+          const newFavorite = {
+            id: key,
+            ...data[key],
+          };
+          newData.push(newFavorite);
+        }
+
+        setUserFavorites(newData);
+      });
+  }, [addFavoriteHandler, setUserFavorites]);
 
   const removeFavoriteHandler = (id) => {
-    setUserFavorites((prevState) => {
-      return prevState.filter((meetup) => meetup.id !== id);
+    console.log(id);
+    fetch(
+      `https://portfolio-5220b-default-rtdb.asia-southeast1.firebasedatabase.app/favorites/${id}.json`,
+      {
+        method: 'DELETE',
+      }
+    ).then((response) => {
+      setUserFavorites((prevState) => {
+        return prevState.filter((meetup) => meetup.id !== id);
+      });
     });
   };
 

@@ -10,6 +10,8 @@ const MeetupItem = ({ meetup }) => {
 
   const isItemFavorite = isFavorite(id);
 
+  console.log(isItemFavorite);
+
   const toggleFavoriteHandler = () => {
     if (isItemFavorite) {
       removeFavorite(id);
